@@ -9,9 +9,6 @@ import android.widget.FrameLayout;
 
 public class FloatLargerView extends FrameLayout {
 
-	private float xInDown = 0;
-	private float yInDown = 0;
-
 	public FloatLargerView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		// TODO Auto-generated constructor stub
@@ -41,8 +38,6 @@ public class FloatLargerView extends FrameLayout {
 		Log.d("tjl", "OntouEvent");
 		switch (action) {
 		case MotionEvent.ACTION_DOWN:
-			xInDown = event.getX();
-			yInDown = event.getY();
 			break;
 		case MotionEvent.ACTION_MOVE:
 

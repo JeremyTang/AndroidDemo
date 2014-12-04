@@ -71,8 +71,8 @@ public class MyWindowManager {
 		mLargerParams.gravity = Gravity.LEFT | Gravity.TOP;
 		mLargerParams.width = screenWidth / 4;
 		mLargerParams.height = screenHeight / 4;
-		mLargerParams.x = 0;
-		mLargerParams.y = screenHeight / 2;
+		mLargerParams.x = mSmallParams.x;
+		mLargerParams.y = mSmallParams.y;
 		mLargerView.setLayoutParams(mSmallParams);
 		wManager.addView(mLargerView, mLargerParams);
 	}
@@ -90,14 +90,14 @@ public class MyWindowManager {
 		}
 		mLargerView.setVisibility(View.VISIBLE);
 	}
-	
-	public void hideSmallView(){
+
+	public void hideSmallView() {
 		if (mSmallView == null) {
 			return;
 		}
 		mSmallView.setVisibility(View.GONE);
 	}
-	
+
 	public void hideLargerView() {
 		if (mLargerView == null) {
 			return;
@@ -112,23 +112,39 @@ public class MyWindowManager {
 	// wManager.removeView(mSmallView);
 	// }
 
-//	public void removeLargerView() {
-//		if (mLargerView == null) {
-//			return;
-//		}
-//		wManager.removeView(mLargerView);
-//	}
+	// public void removeLargerView() {
+	// if (mLargerView == null) {
+	// return;
+	// }
+	// wManager.removeView(mLargerView);
+	// }
 
 	public boolean isSmallShowing() {
 		return mSmallView != null && mSmallView.isShown();
 	}
-	
-	public boolean isLargerShowing(){
+
+	public boolean isLargerShowing() {
 		return mLargerView != null && mLargerView.isShown();
 	}
-	
-	public boolean isWindoShowing(){
+
+	public boolean isWindoShowing() {
 		return isSmallShowing() || isLargerShowing();
+	}
+
+	public void moveSmallView(int x, int y) {
+		mSmallParams.x = x;
+		mSmallParams.y = y;
+		wManager.updateViewLayout(mSmallView, mSmallParams);
+	}
+
+	public void positionSmallView(float x,float y) {
+		mSmallParams.x = 0;
+		int width = mContext.getResources().getDisplayMetrics().widthPixels;
+		if(x>width/2){
+			mSmallParams.x =  width - mSmallView.getWidth();
+		}
+		mSmallParams.y = (int)y;
+		wManager.updateViewLayout(mSmallView, mSmallParams);
 	}
 
 }

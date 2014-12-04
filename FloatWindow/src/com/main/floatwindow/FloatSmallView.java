@@ -8,7 +8,7 @@ import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
 public class FloatSmallView extends FrameLayout {
-	
+
 	private float xInDown = 0;
 	private float yInDown = 0;
 
@@ -30,35 +30,48 @@ public class FloatSmallView extends FrameLayout {
 		onCreate();
 	}
 
+	@Override
+	protected void onFinishInflate() {
+		// TODO Auto-generated method stub
+		Log.e("tang", "SmallView finishinflater");
+		super.onFinishInflate();
+	}
+
 	private void onCreate() {
 		LayoutInflater.from(getContext()).inflate(R.layout.float_small, this);
-		
+
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		// TODO Auto-generated method stub
 		int action = event.getAction();
-		Log.d("tjl","OntouEvent");
+		Log.d("tjl", "OntouEvent");
 		switch (action) {
 		case MotionEvent.ACTION_DOWN:
 			xInDown = event.getX();
 			yInDown = event.getY();
 			break;
 		case MotionEvent.ACTION_MOVE:
-
+			MyWindowManager.newInstance(getContext()).moveSmallView(
+					(int) (event.getRawX() - xInDown),
+					(int) (event.getRawY() - yInDown));
 			break;
 		case MotionEvent.ACTION_UP:
-			if(xInDown == event.getX() && yInDown == event.getY()){
-				openLargerView();
-			}
+			MyWindowManager.newInstance(getContext()).positionSmallView(
+					event.getRawX(), event.getRawY());
+			Log.e("tang",
+					"rawX = " + event.getRawX() + "---- rawY = "
+							+ event.getRawY() + " ********* X = "
+							+ event.getX() + " ---- Y =  " + event.getY());
 			break;
 		}
 		return super.onTouchEvent(event);
 	}
-	
-	private void openLargerView(){
+
+	private void openLargerView() {
 		MyWindowManager.newInstance(getContext()).hideSmallView();
 		MyWindowManager.newInstance(getContext()).showLargerView();
 	}
+
 }
